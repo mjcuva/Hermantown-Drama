@@ -14,6 +14,8 @@ $(document).ready(function(){
 
 	$('.content hr').first().hide();
 
+
+
 	
 
 	$('.postError').hide();
@@ -78,9 +80,13 @@ $(document).ready(function(){
 
 
 	$('.left .addComment').live('click', function(){
+		$('.commentBox').remove();
+		$('.postComment').remove();
+		$('.left .addComment').show();
 		id = this.id
 		html = "<div class='control-group comment'><textarea class='commentBox " + id + "'></textarea><button id='"+ id + "' class='btn btn-small btn-success postComment'>Add Comment</button></div>"
-		$('.post.' + id).append(html)
+		$('.post.' + id + ' .clear').last().before(html);
+		$(".commentBox").css('overflow', 'hidden').autogrow();
 		$(this).hide();
 	});
 
