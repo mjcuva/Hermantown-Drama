@@ -73,6 +73,7 @@ $(document).ready(function(){
 			data: data,
 			success: function(){
 				$('#' + id).remove();
+				$('.clear.' + id).remove();
 				// $('.content hr').first().hide();
 			}
 		})
