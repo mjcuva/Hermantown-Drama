@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="static/bootstrap/css/bootstrap.css" rel="stylesheet" type='text/css'>
+		<link href="static/bootstrap/css/bootstrap-responsive.css" >
+		<link href="static/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+		<link href="static/bootstrap/css/docs.css" rel='stylesheet'>
+		<link href="static/style.css" rel="stylesheet">
+
+		<title>Hermantown Drama</title>
+
+	</head>
+
+
+
+	<body>
+
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+						<ul class="nav">
+							{% if user %}
+							<li>
+								<p class="navbar-text user" rel='popover'><img src="/img/{{user.key().id()}}">{{user.name}}</P>
+							</li>
+							{% endif %}
+						</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="jumbotron">
+			<div class="container">
+				<h1>Hermantown Drama</h1>
+				{% if not user %}
+					<div class="memberInfo"><P>Member of the HHS drama club?</p>
+						<a href='/login'><button class="btn btn-primary btn-large loginButton">Login</button></a> or 
+						<a href="/register"><button class="btn btn-large btn-primary registerButton">Register</button></a>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span2 offset2">
+					<div class="sidebar">
+						<ul class="nav nav-list">
+							<li class="nav-header">Important Dates:</li>
+							<li>October 8th: First day of rehearsal!</li>
+							<hr>
+							<li>November 28, 29 at 7pm and December 1 at 2pm and 7pm: Performances</li>
+						</ul>
+					</div>
+
+					<div class="sidebar centerText" id="lowerBar">
+						<ul class="nav nav-list">
+							<li class="nav-header">Notice a problem with the site?</li>
+							<li>Please email Marc at <a href="mailto:mjcuva@gmail.com">mjcuva@gmail.com</a> with a detailed description of the problem.</li>
+					</div>
+				</div>
+				<div class="span6">
+					{% if user %}
+						<div id="postBox">
+							<form method="post">
+								<div class='control-group'> <textarea id="content" name = "content" rows = '3'></textarea> 
+								<button id="addPost" class="btn btn-primary btn-large">Add Post</button></div>
+								<div class="postError alert alert-error">You need to enter a post.</div>
+							</form>
+						</div>
+					{% endif %}
+					<div class="content">
+						{% for post in posts %}
+							{% include 'post.html' %}
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+
+
+		<script src="static/javascript/jquery-1.7.2.js"></script>
+	    <script src="static/bootstrap/js/bootstrap.js"></script>
+	    <script src="static/javascript/home.js"></script>
+	    <script src='https://raw.github.com/jquery/jquery-color/master/jquery.color.js'></script>
+	</body>
+
+</html>
+
+
+

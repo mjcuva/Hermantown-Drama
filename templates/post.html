@@ -1,0 +1,18 @@
+<!-- <hr class="{{post.key().id()}}"> -->
+<div class="post well {{post.key().id()}}">
+	<div class='left'>
+		<img src="/img/{{post.author.key().id()}}">
+		<div class='author {{post.author.permissions}}'>{{post.author.name}}</div>
+		<div class="postcontent">{{post.content}}</div>
+		{% if user %}<button class='addComment btn btn-link' id="{{post.key().id()}}">Add Comment</button>{% endif %}
+	</div>
+
+	
+	{%if user.permissions == 'God' or user.permissions == 'Admin' or post.author.name == user.name%}<div class="delete"><button id= "{{post.key().id()}}" class="btn btn-small btn-danger deletePost">Delete</button></div>{% endif %}	
+
+	<div class="time">{{post.time.strftime("%b %d")}}</div>
+	<br class="clear">
+	{% for comment in comments %}
+		{% include 'comments.html' %}
+	{% endfor %}
+</div>

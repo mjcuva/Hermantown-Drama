@@ -1,0 +1,24 @@
+{% if comment.post.key().id() == post.key().id() %}
+	<div class="userComment" id='{{comment.key().id()}}'>
+		<div class="left">
+			<img class="commentImage" src="/img/{{comment.author.key().id()}}">
+			<div class="commentAuthor">{{comment.author.name}}</div>
+			<div class="commentContent">{{comment.content}}</div>
+		</div>
+		
+		{%if user.permissions == 'God' or user.permissions == 'Admin' or comment.author.name == user.name%}
+			<div class="right">
+				<div class="commentDelete">
+					<button id= "{{comment.key().id()}}" class="btn btn-small btn-danger deleteComment">Delete</button>
+				</div>
+
+				<div class="commentTime">{{comment.time.strftime("%b %d")}}</div>
+			</div>
+			<br class='clear'>
+		{% else %}
+			<div class="right">
+				<div class="commentTime">{{comment.time.strftime("%b %d")}}</div>
+			</div>
+		{% endif %}
+	</div>
+{% endif %}

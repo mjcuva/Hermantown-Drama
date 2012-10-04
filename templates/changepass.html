@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+
+		<link href="static/bootstrap/css/bootstrap.css" rel="stylesheet" type='text/css'>
+		<link href="static/bootstrap/css/bootstrap-responsive.css" >
+		<link href="static/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+		<link href="static/bootstrap/css/docs.css" rel='stylesheet'>
+
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+	    <script src="static/bootstrap/js/bootstrap.js"></script>
+	    <script src="static/validation/dist/jquery.validate.js"></script>
+
+
+	</head>
+
+	<style type="text/css">
+
+		.centerLeft {
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
+			float: none;
+		}
+
+		.centerMiddle {
+			margin-top: 100px;
+		}
+
+		.centerText {
+			text-align: center !important;
+		}
+
+		.formItem{
+			font-size: 18px;
+		}
+
+	</style>
+
+
+	<body>
+
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+						<ul class="nav">
+							<li class="active">
+								<a href='/'>Home</a>
+							</li>
+						</ul>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="well span6 centerLeft centerMiddle">
+			<form class="form-horizontal" id="editform" method="post" action="" enctype="multipart/form-data">
+				<fieldset>
+					<legend class='centerText'>Edit Profile</legend>
+
+					<div class="control-group">
+						<label class="control-label centerText formItem">Old Password</label>
+						<div class='controls'>
+							<input type='password' class="input-xlarge required" id="oldpass" name="oldpass">
+						</div>
+						<br>
+						{% if oldpass %}<div class='alert alert-error'>{{oldpass}}</div>{% endif %}
+					</div>
+
+					<div class="control-group">
+						<label class="control-label centerText formItem">New Password</label>
+						<div class='controls'>
+							<input type='password' class="input-xlarge required" id="newpass" name="newpass" >
+						</div>
+						<br>
+						{% if newpass %}<div class='alert alert-error'>{{newpass}}</div>{% endif %}
+					</div>
+
+					<div class="control-group">
+						<label class="control-label centerText formItem">Retype New</label>
+						<div class='controls'>
+							<input type='password' class="input-xlarge required" id="passval" name="passval">
+						</div>
+						<br>
+						{% if valpass %}<div class='alert alert-error'>{{valpass}}</div>{% endif %}
+					</div>
+					
+
+					<button class="btn btn-primary centerLeft" id="save">Save Changes</button>
+
+					<br>
+					{% if errorMessage %}<div class='alert alert-error centerText'>{{errorMessage}}</div>{% endif %}
+
+
+						
+
+
+					
+
+
+				</fieldset>
+				
+
+			</form>
+
+		</div>
+
+
+
+
+
+	</body>
+
+</html>
+
+
+

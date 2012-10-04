@@ -1,0 +1,219 @@
+body{
+	/*background: url('images/back.png');*/
+	background-color: #dbdbdb;
+	/*height: 3000px;*/
+}
+
+.jumbotron {
+	background-image: url('images/footloose1.jpg');
+	background-color: black;
+	background-position: center -150px;
+	background-repeat: no-repeat; 
+	background-size: 75%;
+	text-shadow: 0px 0px 20px #000000;
+	margin-bottom: 40px;
+}
+
+.hide {
+	display: none;
+}
+
+.well {
+	margin-bottom: 0px;
+}
+
+#postBox {
+	margin-bottom: 10px;
+	margin-left: 30px;
+	height: auto;
+}
+
+#postBox textarea {
+	width: 80%;
+}
+
+#postBox button {
+	margin-top: 15px;
+	margin-left: 5px;
+}
+
+.navbar img{
+	height: 40px;
+	width: auto;
+	margin-right: 5px;
+}
+
+.user {
+	/*float: right !important;*/
+	right: 0;
+	position: fixed;
+	margin-right: 100px;
+}
+
+.pull-right {
+	float: right !important;
+}
+
+.content {
+	margin-top: 0px;
+	border: 1px solid gray;
+	border-radius: 10px;
+	padding: 1px;
+	background-color: white;
+	margin-bottom: 10px;
+
+}
+
+.author {
+	margin-left: 70px;
+	margin-bottom: 5px;
+	color: #4b6edb;
+}
+
+/*.Admin {
+	color: #fe1a06;
+}
+
+.God {
+	color: #fe1a06;
+}*/
+
+.post {
+	height: auto;
+	min-height: 60px;
+	padding: 5px;
+	/*margin-top: 10px;*/
+	position: relative;
+	margin-bottom: 2px;
+}
+
+.clear {
+	clear: both;
+}
+
+.post img{
+	float: left;
+	height: 60px;
+	width: auto;
+}
+
+.post .postcontent {
+	margin-left: 100px;
+	/*margin-top: 20px;*/
+	margin-bottom: 10px;
+	height: auto !important;
+}
+
+.time {
+	font-size: 10px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+.commentTime {
+	font-size: 10px;
+}
+
+.right {
+	float: right;
+}
+
+.sidebar {
+	border: 1px solid #999;
+	border-radius: 10px;
+	padding: 5px;
+	padding-right: 1px;
+	background-color: white; 
+	/*position: fixed;*/
+	width: 200px;
+}
+
+#lowerBar {
+	margin-top: 10px;
+}
+
+.nav-header {
+	font-size: 16px;
+	margin-bottom: 2px;
+}
+
+hr{
+	margin: 0px;
+	color: black;
+	border-top: 1px dotted black;
+}
+
+.delete{
+	float: right;
+}
+
+.left {
+	float: left;
+	width: 90%;
+	margin-bottom: 20px;
+}
+
+.highlight {
+	background-color: #70cffe
+}
+
+.addComment {
+	display: inline-block;
+	font-size: 10px;
+	bottom: -7px;
+	position: absolute;
+	left: 60px;
+}
+
+.memberInfo {
+	font-size: 20px;
+}
+
+.memberInfo button {
+	margin: 0px 10px 0px 10px;
+}
+
+.commentBox {
+	margin-left: 80px;
+	margin-top: 10px;
+	width: 50%;
+}
+
+.postComment {
+	margin-top: 20px;
+	margin-left: 10px;
+}
+
+.userComment {
+	border-top: 1px dashed black; 
+	margin-left: 80px;
+	padding: 5px;
+	margin-bottom: 10px;
+	min-height: 40px;
+}
+
+.commentImage {
+	height: 40px !important;
+	width: auto;
+}
+
+.commentContent {
+	margin-left: 60px;
+	margin-top: 3px;
+}
+
+.commentAuthor {
+	font-size: 13px;
+	color: #4b6edb;
+	margin-left: 50px;
+}
+
+.commentDelete {
+	float: right;
+	margin-right: -5px;
+}
+
+.centerText{
+	text-align: center;
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+
+		<link href="static/bootstrap/css/bootstrap.css" rel="stylesheet" type='text/css'>
+		<link href="static/bootstrap/css/bootstrap-responsive.css" >
+		<link href="static/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+		<link href="static/bootstrap/css/docs.css" rel='stylesheet'>
+
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+	    <script src="static/bootstrap/js/bootstrap.js"></script>
+	    <script src="static/validation/dist/jquery.validate.js"></script>
+	    <script type="text/javascript" src="static/javascript/profile.js"></script>
+	    <!-- <script src="http://malsup.github.com/jquery.form.js"></script>  -->
+
+
+	</head>
+
+	<style type="text/css">
+
+		.centerLeft {
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
+			float: none;
+		}
+
+		.centerMiddle {
+			margin-top: 100px;
+		}
+
+		.centerText {
+			text-align: center !important;
+		}
+
+		.formItem{
+			font-size: 18px;
+		}
+
+	</style>
+
+
+	<body>
+
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+						<ul class="nav">
+							<li class="active">
+								<a href='/'>Home</a>
+							</li>
+						</ul>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="well span6 centerLeft centerMiddle">
+			<form class="form-horizontal" id="editform" method="post" action="" enctype="multipart/form-data">
+				<fieldset>
+					<legend class='centerText'>Edit Profile</legend>
+
+					<div class="control-group">
+						<label class="control-label centerText formItem">First Name</label>
+						<div class='controls'>
+							<input type='text' class="input-xlarge required" id="user_first" name="user_first" value="{{firstname}}">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label centerText formItem">Last Name</label>
+						<div class='controls'>
+							<input type='text' class="input-xlarge required" id="user_last" name="user_last" value="{{lastname}}">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label centerText formItem">Email</label>
+						<div class='controls'>
+							<input type='text' class="input-xlarge required" id="user_email" name="user_email" value="{{user.email}}">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label centerText formItem">Profile Image</label>
+						<div class='controls'>
+							<input type='file' name='image' id="image">
+						</div>
+						{% if error %}<br><div class="alert alert-error centerText">{{error}}</div>{% endif %}
+					</div>
+
+					
+					<button class="btn btn-primary centerLeft" id="save">Save Changes</button>
+					
+					<br>
+					
+
+					<button class="btn btn-medium btn-success centerLeft" id='changePass'>Change Password</button>
+						
+
+
+					
+
+
+				</fieldset>
+				
+
+			</form>
+
+		</div>
+
+
+
+
+
+	</body>
+
+</html>
+
+
+
