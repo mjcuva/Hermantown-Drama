@@ -60,7 +60,7 @@ body{
 	border-radius: 10px;
 	padding: 1px;
 	background-color: white;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 
 }
 
@@ -177,7 +177,8 @@ hr{
 .commentBox {
 	margin-left: 80px;
 	margin-top: 10px;
-	width: 50%;
+	width: 60%;
+	height: ;
 }
 
 .postComment {
@@ -189,7 +190,7 @@ hr{
 	border-top: 1px dashed black; 
 	margin-left: 80px;
 	padding: 5px;
-	margin-bottom: 10px;
+	/*margin-bottom: 10px;*/
 	min-height: 40px;
 }
 
