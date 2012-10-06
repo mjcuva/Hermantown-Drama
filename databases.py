@@ -40,7 +40,7 @@ class Comment(db.Model):
 	post = db.ReferenceProperty(Post)
 	content = db.TextProperty(required = True)
 	author = db.ReferenceProperty(User)
-	time = db.DateProperty(auto_now_add = True)
+	time = db.DateTimeProperty(auto_now_add = True)
 
 	@classmethod
 	def addComment(cls, post, author, content):

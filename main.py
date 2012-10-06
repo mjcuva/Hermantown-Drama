@@ -5,20 +5,19 @@ import util
 import databases
 import hmac
 import json
+import logging
 
 from google.appengine.ext import db
-from google.appengine.api import images
 from google.appengine.api import urlfetch
-
 
 
 secret = 'secret'
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-jinja_env = jinja2.Environment(loader= jinja2.FileSystemLoader(template_dir))
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
 
 
-
+# Shortcut handler for simpler function calls
 class Handler(webapp2.RequestHandler):
     def write(self, *a, **kw):
         self.response.out.write(*a, **kw)
@@ -32,15 +31,17 @@ class Handler(webapp2.RequestHandler):
 
     def set_cookie(self, name, value):
         val = self.make_secure_val(value)
+        logging.error(val)
         return self.response.headers.add_header("Set-Cookie", "%s=%s; Path='/'" % (name, val))
 
     def make_secure_val(self, val):
         return '%s|%s' % (val, hmac.new(secret, val).hexdigest())
-  
+
     def check_secure_val(self, secure_val):
         val = secure_val.split('|')[0]
         if secure_val == self.make_secure_val(val):
             return val
+
 
 class MainHandler(Handler):
     def get(self):
@@ -49,7 +50,7 @@ class MainHandler(Handler):
         else:
             user = None
         posts = databases.Post.all().order('-time')
-        comments = databases.Comment.all().order('-time')
+        comments = databases.Comment.all().order('time')
 
         images = databases.userImage.all()
         self.render('base.html', user = user, posts = posts, comments = comments, images = images)
@@ -61,8 +62,7 @@ class MainHandler(Handler):
             output = {'test': test}
             output = json.dumps(output)
             self.write(output)
-        
-        
+
 
 class addPost(Handler):
     def post(self):
@@ -75,6 +75,7 @@ class addPost(Handler):
             # output = json.dumps(output)
             # self.write(output)
 
+
 class addComment(Handler):
     def post(self):
         if(self.request.cookies.get('user') and self.check_secure_val(self.request.cookies.get('user'))):
@@ -82,11 +83,9 @@ class addComment(Handler):
             content = self.request.get('content').replace('\n', '<br>')
             postid = self.request.get('id')
             post = databases.Post.get_by_id(int(postid))
-            
             comment = databases.Comment.addComment(post, user, content)
 
             self.render('comments.html', comment = comment, post = post, user = user)       
-
 
 
 class register(Handler):
@@ -94,7 +93,6 @@ class register(Handler):
         self.render('signup.html')
 
     def post(self):
-        hasError = False
         name = util.escape(self.request.get("user_first") + " " + self.request.get("user_last"))
         password = util.escape(self.request.get("user_pass"))
         email = util.escape(self.request.get("user_email"))
@@ -113,6 +111,7 @@ class register(Handler):
         self.set_cookie("user", str(user.key().id()))
 
         self.redirect('/')
+
 
 class login(Handler):
     def get(self):
@@ -154,12 +153,15 @@ class login(Handler):
             self.render('login.html', **params)
         else:
             self.set_cookie('user', str(u.key().id()))
+            logging.error(self.request.cookies.get('user'))
             self.redirect('/')
+
 
 class logout(Handler):
     def get(self):
         self.set_cookie('user', '')
         self.redirect('/')
+
 
 class delete(Handler):
     def get(self):
@@ -199,6 +201,11 @@ class profile(Handler):
     def post(self):
         user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
 
+        user.name = self.request.get('user_first') + " " + self.request.get('user_last')
+        user.email = self.request.get('user_email')
+        user.pw_hash = util.make_pw_hash(user.email, self.request.get('user_password'))
+        user.put()
+
         if not self.request.POST[u'image'] == "":
             try:
                 data = self.request.POST[u'image'].file.read()
@@ -206,12 +213,9 @@ class profile(Handler):
                 filetype = 'image/' + self.request.POST[u'image'].type
                 image = databases.userImage(name = name, data = data, filetype = filetype, user = user)
                 for i in databases.userImage.all():
-                    if image.user.key().id() == user.key().id():
+                    if i.user.key().id() == user.key().id():
                         i.delete()
                 image.put()
-                user.name = self.request.get('user_first') + " " + self.request.get('user_last')
-                user.email = self.request.get('user_email')
-                user.put()
 
                 self.redirect('/')
             except:
@@ -220,15 +224,18 @@ class profile(Handler):
                 lastname = user.name.split(' ')[1]
                 self.render('profile.html', user = user, firstname = firstname, lastname = lastname, error = error)
 
-        
+        self.redirect('/')
+
 
 class changePass(Handler):
+
     def get(self):
             if(self.request.cookies.get('user') and self.check_secure_val(self.request.cookies.get('user'))):
                 user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
                 self.render('changepass.html')
             else:
                 self.redirect('/')
+
     def post(self):
         params = {}
         error = False
@@ -277,12 +284,9 @@ class imageHandler(Handler):
             except:
                 pass
 
-        self.response.headers['Content-Type'] = 'text'
-        self.response.out.write( img.data )
-
-
-
-        
+        if img:
+            self.response.headers['Content-Type'] = 'text'
+            self.response.out.write( img.data )
 
 
 
