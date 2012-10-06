@@ -14,6 +14,10 @@ $(document).ready(function(){
 
 	$('.content hr').first().hide();
 
+	$('.button').click(function(e) {
+		e.preventDefault();
+	});
+
 
 
 	
@@ -22,7 +26,7 @@ $(document).ready(function(){
 
 	$('#addPost').click(function(event){
 		event.preventDefault();
-		if ($("#content").val() == ""){
+		if ($("#content").val() === ""){
 			$('.control-group').addClass("error");
 			$('.postError').show();
 		}else{
@@ -40,7 +44,7 @@ $(document).ready(function(){
 					$('.content hr').first().hide();
 					$('.post').first().animate({
 						backgroundColor: "#70cffe"
-					}, 1)
+					}, 1);
 					$('.post').first().animate({
 						backgroundColor: '#F5F5F5'
 					}, 5000);
@@ -50,7 +54,7 @@ $(document).ready(function(){
 	});
 
 	$('.deletePost').live('click', function(){
-		id = this.id
+		id = this.id;
 		data = {'id': id, 'type': 'post'};
 		$.ajax({
 			type: "GET",
@@ -61,11 +65,11 @@ $(document).ready(function(){
 				$('.content hr').first().hide();
 
 			}
-		})
+		});
 	});
 
 	$('.deleteComment').live('click', function(){
-		id = this.id
+		id = this.id;
 		data = {'id': id, 'type': 'comment'};
 		$.ajax({
 			type: "GET",
@@ -76,7 +80,7 @@ $(document).ready(function(){
 				$('.clear.' + id).remove();
 				// $('.content hr').first().hide();
 			}
-		})
+		});
 	});
 
 
@@ -84,21 +88,21 @@ $(document).ready(function(){
 		$('.commentBox').remove();
 		$('.postComment').remove();
 		$('.left .addComment').show();
-		id = this.id
-		html = "<div class='control-group comment'><textarea class='commentBox " + id + "'></textarea><button id='"+ id + "' class='btn btn-small btn-success postComment'>Add Comment</button></div>"
+		id = this.id;
+		html = "<div class='control-group comment'><textarea class='commentBox " + id + "'></textarea><button id='"+ id + "' class='btn btn-small btn-success postComment'>Add Comment</button></div>";
 		$('.post.' + id + ' .clear').last().before(html);
-		$(".commentBox").css('overflow', 'hidden').autogrow();
+		$(".commentBox").css('overflow', 'hidden').autogrow().focus();
 		$(this).hide();
 	});
 
 	$('.postComment').live('click', function(){
-		id = this.id
-		box = $('.commentBox.' + id)
-		if ($(box).val() == ''){
+		id = this.id;
+		box = $('.commentBox.' + id);
+		if ($(box).val() === ''){
 			$('.control-group.comment').addClass("error");
 		}else{
 			content = box.val();
-			data = {'content': content, 'id': id}
+			data = {'content': content, 'id': id};
 			$.ajax({
 				type: 'POST',
 				url: '/addcomment',
@@ -108,9 +112,9 @@ $(document).ready(function(){
 					box.remove();
 					$('.postComment').hide();
 					$('.left .addComment').show();
-					$('.post.' + id).append(content)
+					$('.post.' + id).append(content);
 				}
-			})
+			});
 		}
 	});
 

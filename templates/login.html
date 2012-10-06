@@ -11,6 +11,7 @@
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 	    <script src="static/bootstrap/js/bootstrap.js"></script>
 	   	<script src="static/validation/dist/jquery.validate.js"></script>
+	   	<script src="static/javascript/login.js"></script>
 
 	</head>
 
@@ -61,7 +62,7 @@
 					<div class="control-group  {{errorEmail}}">
 						<label class="control-label centerText formItem">Email</label>
 						<div class='controls'>
-							<input type='text' class="input-xlarge" value="{{email}}" name="email">
+							<input type='text' class="input-xlarge email" value="{{email}}" name="email">
 						</div>
 
 					</div>
@@ -69,13 +70,13 @@
 					<div class="control-group  {{errorPass}}">
 						<label class="control-label centerText formItem">Password</label>
 						<div class='controls'>
-							<input type='password' class="input-xlarge" name="password">
+							<input type='password' class="input-xlarge password" name="password">
 						</div>
 					</div>
 
 					<div class="control-group">
 						<div class='controls'>
-							<button type='submit' class="btn btn-primary">Submit</button>
+							<button class="btn btn-primary login">Submit</button>
 						</div>
 					</div>
 
