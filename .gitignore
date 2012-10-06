@@ -11,3 +11,7 @@
 
 /static/validation
 static/javascript/jquery-1.7.2.js
+
+*.gif
+
+static/javascript/login.js
