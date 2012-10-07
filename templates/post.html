@@ -1,7 +1,7 @@
 <!-- <hr class="{{post.key().id()}}"> -->
 <div class="post well {{post.key().id()}}">
 	<div class='left'>
-		<img src="/img/{{post.author.key().id()}}">
+		<div class="profileImage left"><img src="/img/{{post.author.key().id()}}"></div>
 		<div class='author {{post.author.permissions}}'>{{post.author.name}}</div>
 		<div class="postcontent">{{post.content}}</div>
 		{% if user %}<button class='addComment btn btn-link' id="{{post.key().id()}}">Add Comment</button>{% endif %}
