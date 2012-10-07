@@ -101,10 +101,19 @@ position: relative;
 	clear: both;
 }
 
-.post img {
-	float: left;
+.profileImage img {
+	width: 100%;
+	vertical-align: middle;
+	border-radius: 10px;
+
+}
+
+.profileImage {
+	width: 60px !important;
 	height: 60px;
-	width: auto;
+	line-height: 60px;
+	overflow: hidden;
+	position: relative;
 }
 
 .post .postcontent {
