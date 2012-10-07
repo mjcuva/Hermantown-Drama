@@ -82,11 +82,12 @@
 						</div>
 					</div>
 
-					<div class="control-group">
+					{%if password %}<div class="control-group error">{% else %} <div class="control-group">{% endif %}
 						<label class="control-label centerText formItem">Enter Password to save changes</label>
 						<div class='controls'>
 							<input type='password' class="input-xlarge required" id="user_password" name="user_password">
 						</div>
+						{% if password %}<br><div class="alert alert-error centerText">{{password}}</div>{% endif %}
 					</div>
 
 					<div class="control-group">
