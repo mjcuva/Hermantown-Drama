@@ -1,7 +1,7 @@
 {% if comment.post.key().id() == post.key().id() %}
 	<div class="userComment" id='{{comment.key().id()}}'>
 		<div class="left">
-			<img class="commentImage" src="/img/{{comment.author.key().id()}}">
+			<div class="profileImage"><img class="commentImage" src="/img/{{comment.author.key().id()}}"></div>
 			<div class="commentAuthor">{{comment.author.name}}</div>
 			<div class="commentContent">{{comment.content}}</div>
 		</div>
