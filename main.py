@@ -32,7 +32,7 @@ class Handler(webapp2.RequestHandler):
     def set_cookie(self, name, value):
         val = self.make_secure_val(value)
         logging.error(val)
-        return self.response.headers.add_header("Set-Cookie", "%s=%s; Path='/'" % (name, val))
+        return self.response.headers.add_header("Set-Cookie", "%s=%s" % (name, val))
 
     def make_secure_val(self, val):
         return '%s|%s' % (val, hmac.new(secret, val).hexdigest())
@@ -200,31 +200,39 @@ class profile(Handler):
 
     def post(self):
         user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
+        firstname = user.name.split(' ')[0]
+        lastname = user.name.split(' ')[1]
 
-        user.name = self.request.get('user_first') + " " + self.request.get('user_last')
-        user.email = self.request.get('user_email')
-        user.pw_hash = util.make_pw_hash(user.email, self.request.get('user_password'))
-        user.put()
+        if self.request.get('user_password') == '' or util.valid_pw(user.email, self.request.get('user_password'), user.pw_hash) == False:
+            self.render('profile.html', password = 'Invalid Password', user = user, firstname = firstname, lastname = lastname)
+        else:
+            user.name = self.request.get('user_first') + " " + self.request.get('user_last')
+            user.email = self.request.get('user_email')
+            user.pw_hash = util.make_pw_hash(user.email, self.request.get('user_password'))
+            user.put()
 
-        if not self.request.POST[u'image'] == "":
-            try:
-                data = self.request.POST[u'image'].file.read()
-                name = self.request.POST[u'image'].filename
-                filetype = 'image/' + self.request.POST[u'image'].type
-                image = databases.userImage(name = name, data = data, filetype = filetype, user = user)
-                for i in databases.userImage.all():
-                    if i.user.key().id() == user.key().id():
-                        i.delete()
-                image.put()
+            if not self.request.POST[u'image'] == "":
+                try:
+                    data = self.request.POST[u'image'].file.read()
+                    name = self.request.POST[u'image'].filename
+                    filetype = 'image/' + self.request.POST[u'image'].type
+                    image = databases.userImage(name = name, data = data, filetype = filetype, user = user)
+                    for i in databases.userImage.all():
+                        if i.user.key().id() == user.key().id():
+                            logging.debug('Deleted: ' + i.name)
+                            i.delete()
 
+                    logging.debug("Put: " + image.name)
+                    image.put()
+
+                    self.redirect('/')
+                except Exception as e:
+                    error = "Image must be smaller than 1mb."
+                    logging.error(e)
+                    self.render('profile.html', user = user, firstname = firstname, lastname = lastname, error = error)
+            else:
+                logging.debug('No image')
                 self.redirect('/')
-            except:
-                error = "Image must be smaller than 1mb."
-                firstname = user.name.split(' ')[0]
-                lastname = user.name.split(' ')[1]
-                self.render('profile.html', user = user, firstname = firstname, lastname = lastname, error = error)
-
-        self.redirect('/')
 
 
 class changePass(Handler):
@@ -275,6 +283,7 @@ class changePass(Handler):
 class imageHandler(Handler):
     def get(self, id):
 
+        img = None
         user = databases.User.get_by_id(int(id))
         images = databases.userImage.all()
         for i in images:
