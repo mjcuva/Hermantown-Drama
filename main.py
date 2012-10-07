@@ -68,7 +68,7 @@ class addPost(Handler):
     def post(self):
         if(self.request.cookies.get('user') and self.check_secure_val(self.request.cookies.get('user'))):
             user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
-            content = self.request.get('content').replace('\n', '<br>')
+            content = util.htmlify(self.request.get('content'))
             post = databases.Post.addPost(user, content)
             self.render("post.html", post = post, user = user)
             # output = {'name': user.name, 'content': self.request.get('content'), 'image': user.profileImage}
@@ -80,7 +80,7 @@ class addComment(Handler):
     def post(self):
         if(self.request.cookies.get('user') and self.check_secure_val(self.request.cookies.get('user'))):
             user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
-            content = self.request.get('content').replace('\n', '<br>')
+            content = util.htmlify(self.request.get('content'))
             postid = self.request.get('id')
             post = databases.Post.get_by_id(int(postid))
             comment = databases.Comment.addComment(post, user, content)

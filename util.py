@@ -2,7 +2,9 @@ import re
 import cgi
 import hashlib
 import random
+import logging
 
+import os
 
 from string import letters
 
@@ -41,6 +43,47 @@ def make_pw_hash(name, pw, salt = None):
 def valid_pw(name, password, h):
 	salt = h.split('|')[0]
 	return h == make_pw_hash(name, password, salt)
+
+def htmlify(content):
+	# Add Break
+	content = content.replace('\n', '<br>')
+
+	# Add links
+	link = content.find('http://')
+	while link > -1:
+		endlink = content.find(' ', link) + 1
+		if endlink == 0: endlink = len(content)
+		content = content[:link] + '<a href="' + content[link:endlink] + '">' + content[link + 7:endlink] + '</a>' + content[endlink:]
+		link = content.find('http://', endlink)
+
+
+	# Add Markdown italics, bold, bold/italics
+	while content.find('***') > -1:
+		start = content.find('***')
+		end = content.find('***', start + 1) + 1
+		if end == 0: end = len(content)
+		content = content[:start] + '<strong><em>' + content[start + 3:end - 1] + '</em></strong>' + content[end + 2:]
+		start = content.find('***', end)
+
+	while content.find('**') > -1:
+		start = content.find('**')
+		end = content.find('**', start + 1) + 1
+		if end == 0: end = len(content)
+		content = content[:start] + '<strong>' + content[start + 2 : end - 1] + '</strong>' + content[end + 1:]
+		start = content.find('**', end)
+
+	while content.find("*") > -1:
+		start = content.find('*')
+		end = content.find('*', start + 1) + 1
+		if end == 0: end = len(content)
+		content = content[:start] + '<em>' + content[start + 1:end - 1] + '</em>' + content[end:]
+		start = content.find('*', end)
+
+	if content.lower() == '#gif me':
+		image = random.randint(1, 28)
+		content = "<img src='/gifs/" + str(image) + ".gif'>"
+
+	return content
 	
 
 	
