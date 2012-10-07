@@ -1,6 +1,9 @@
 Fixes:
   ✔ Large pictures cause lag @done (12-10-05 18:28)
-  Login IE
+  ✔ Login IE @done (12-10-06 12:58)
+  ☐ Memcached
+  ☐ profile images are weird - uniform size
+
 
 
 Additions:
