@@ -12,6 +12,8 @@ handlers:
   static_dir: static
 - url: /images
   static_dir: images
+- url: /gifs
+  static_dir: gifs
 
 - url: .*
   script: main.app
