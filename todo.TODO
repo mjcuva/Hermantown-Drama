@@ -1,10 +1,9 @@
 Fixes:
-  ✔ Large pictures cause lag @done (12-10-05 18:28)
-  ✔ Login IE @done (12-10-06 12:58)
-  ☐ Memcached
-  ✔ profile images are weird - uniform size @done (12-10-07 11:37)
-  ✔ Links and Markdown parsing @done (12-10-07 16:34)
- ☐ Fix link click pictures page
+✔ Large pictures cause lag @done (12-10-05 18:28)
+✔ Login IE @done (12-10-06 12:58)
+✔ profile images are weird - uniform size @done (12-10-07 11:37)
+✔ Links and Markdown parsing @done (12-10-07 16:34)
+✔ Fix link click pictures page @done (12-10-12 08:54)
 
 
 Additions:
@@ -13,6 +12,7 @@ Additions:
   ✔ profile pages @done (12-10-05 18:28)
   ✔ pictures page @done (12-10-10 17:01)
   ✔ Image uploads @done (12-10-05 18:28)
-    ☐ Applaude feature
-    ☐ Notifications? Ex. "Marc Cuva added a picture"
-    ☐ Youtube parsing? Embed youtube video from link?
+  ✔ Applaude feature @done (12-10-12 11:37)
+  ☐ Notifications? Ex. "Marc Cuva added a picture"
+  ☐ Youtube parsing? Embed youtube video from link?
+  ☐ Memcached
