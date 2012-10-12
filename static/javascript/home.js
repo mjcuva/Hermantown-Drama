@@ -108,11 +108,15 @@ $(document).ready(function(){
 				url: '/addcomment',
 				data: data,
 				success: function(content){
-					box.val('');
-					box.remove();
-					$('.postComment').hide();
-					$('.left .addComment').show();
-					$('.post.' + id).append(content);
+					if (content === 'ERROR'){
+						window.location.href = "/"
+					}else{
+						box.val('');
+						box.remove();
+						$('.postComment').hide();
+						$('.left .addComment').show();
+						$('.post.' + id).append(content);
+					}
 				}
 			});
 		}

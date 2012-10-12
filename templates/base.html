@@ -22,19 +22,7 @@
 
 	<body>
 
-		<div class="navbar navbar-inverse navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container">
-						<ul class="nav">
-							{% if user %}
-							<li>
-								<p class="navbar-text user" rel='popover'><img src="/img/{{user.key().id()}}">{{user.name}}</P>
-							</li>
-							{% endif %}
-						</ul>
-				</div>
-			</div>
-		</div>
+		{% include 'navbar.html' %}
 
 		<div class="jumbotron">
 			<div class="container">
@@ -58,12 +46,17 @@
 							<hr>
 							<li>November 28, 29 at 7pm and December 1 at 2pm and 7pm: Performances</li>
 						</ul>
+						<hr>
+						<ul class="nav nav-list">
+							<li class="nav-header">Schedule</li>
+							<a href='/static/calendar.pdf'>Download (PDF)</a>
 					</div>
 
 					<div class="sidebar-nav-fixed centerText well" id="lowerBar">
 						<ul class="nav nav-list">
 							<li class="nav-header">Notice a problem with the site?</li>
 							<li>Please email Marc at <a href="mailto:mjcuva@gmail.com">mjcuva@gmail.com</a> with a detailed description of the problem.</li>
+						</ul>
 					</div>
 				</div>
 				<div class="span6">
