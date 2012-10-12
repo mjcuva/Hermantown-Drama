@@ -80,6 +80,8 @@
 						<div class='controls'>
 							<input type='text' class="input-xlarge required" id="user_email" name="user_email">
 						</div>
+						<br>
+						{% if error %}<div class="alert alert-error centerText">{{error}}</div>{% endif %}
 					</div>
 
 					<div class="control-group">
