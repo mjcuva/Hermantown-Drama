@@ -91,6 +91,30 @@ class addComment(Handler):
             else:
                 self.write('ERROR')
 
+class applaud(Handler):
+    def post(self):
+        error = False
+        if(self.request.cookies.get('user') and self.check_secure_val(self.request.cookies.get('user'))):
+            user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
+            post = databases.Post.get_by_id(int(self.request.get('id')))
+            for i in databases.applause.all():
+                if i.post.key().id() == post.key().id() and i.user.key().id() == user.key().id():
+                    self.write("ERROR")
+                    error = True
+            if not error:
+                applaud = databases.applause(user = user, post = post)
+                applaud.put()
+                if post.applause:
+                    post.applause += 1
+                    post.put()
+                    self.write(post.applause)
+                else:
+                    post.applause = 1
+                    post.put()
+                    self.write(post.applause)
+        else:
+            self.redirect('/')
+
 
 class register(Handler):
     def get(self):
@@ -101,23 +125,21 @@ class register(Handler):
         password = util.escape(self.request.get("user_pass"))
         email = util.escape(self.request.get("user_email"))
 
-        if not databases.User.all().filter('email =', email):
-            user = databases.User.register(name, password, email)
 
-            user.put()
+        user = databases.User.register(name, password, email)
 
-            data = db.Blob(urlfetch.Fetch("http://i.imgur.com/efHNR.gif").content)
-            filetype = 'gif'
-            name = 'blank_profile.gif'
+        user.put()
 
-            image = databases.userImage(name = name, data = data, filetype = filetype, user = user)
-            image.put()
+        data = db.Blob(urlfetch.Fetch("http://i.imgur.com/efHNR.gif").content)
+        filetype = 'gif'
+        name = 'blank_profile.gif'
 
-            self.set_cookie("user", str(user.key().id()))
+        image = databases.userImage(name = name, data = data, filetype = filetype, user = user)
+        image.put()
 
-            self.redirect('/')
-        else:
-            self.render('signup.html', error = "Email already taken")
+        self.set_cookie("user", str(user.key().id()))
+
+        self.redirect('/')
 
 
 class login(Handler):
@@ -189,6 +211,9 @@ class delete(Handler):
             for comment in comments:
                 if comment.post.key().id() == post.key().id():
                     comment.delete()
+            for applaud in databases.applause.all():
+                if applaud.post.key().id() == post.key().id():
+                    applaud.delete()
             post.delete()
         if(type == 'comment'):
             comment.delete()
@@ -378,5 +403,6 @@ app = webapp2.WSGIApplication([('/', MainHandler),
                                 ('/upimage', uploadImage),
                                 ('/image/([^/]+)?', serve),
                                 ('/photos/?', displayPhotos),
-                                ('/thumbnail/(\d+)', displayThumbnail)],
+                                ('/thumbnail/(\d+)', displayThumbnail),
+                                ('/applaud', applaud)],
                               debug=True)

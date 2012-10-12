@@ -19,9 +19,6 @@ $(document).ready(function(){
 	});
 
 
-
-	
-
 	$('.postError').hide();
 
 	$('#addPost').click(function(event){
@@ -89,10 +86,12 @@ $(document).ready(function(){
 		$('.postComment').remove();
 		$('.left .addComment').show();
 		id = this.id;
+		$('.icon1').show();
 		html = "<div class='control-group comment'><textarea class='commentBox " + id + "'></textarea><button id='"+ id + "' class='btn btn-small btn-success postComment'>Add Comment</button></div>";
 		$('.post.' + id + ' .clear').last().before(html);
 		$(".commentBox").css('overflow', 'hidden').autogrow().focus();
 		$(this).hide();
+		$('.icon1.' + id).hide();
 	});
 
 	$('.postComment').live('click', function(){
@@ -114,6 +113,7 @@ $(document).ready(function(){
 						box.val('');
 						box.remove();
 						$('.postComment').hide();
+						$('.icon1').show();
 						$('.left .addComment').show();
 						$('.post.' + id).append(content);
 					}
@@ -122,11 +122,26 @@ $(document).ready(function(){
 		}
 	});
 
-	
 
+	$('.applaude').live('click', function(){
+		idpost = this.id
+		data = {'id': this.id};
+		$.ajax({
+			type: "POST",
+			url: '/applaud',
+			data: data,
+			success: function(response){
+				if (response === '1'){
+					$('.' + idpost + '.numberApplauded').html(response + " person applauded")
+				}else if (response === 'ERROR'){
+					$('.' + idpost + '.numberApplauded').html('You have already applauded this post.')
+				}else{
+					$('.' + idpost + '.numberApplauded').html(response + " people applauded")
+				}
+			}
 
-
-
+		})
+	});
 
 
 

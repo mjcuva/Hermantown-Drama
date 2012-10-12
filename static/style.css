@@ -176,12 +176,43 @@ hr {
 	background-color: #70cffe;
 }
 
+.icon1{
+	display: inline-block;
+	bottom: 1px;
+	position: absolute;
+	left: 55px;
+}
+
+.icon2 {
+	display: inline-block;
+	bottom: 1px;
+	position: absolute;
+	left: 150px;
+}
+
 .addComment {
 	display: inline-block;
 	font-size: 10px;
 	bottom: -7px;
 	position: absolute;
 	left: 60px;
+}
+
+.applaude {
+	display: inline-block;
+	font-size: 10px;
+	bottom: -7px;
+	position: absolute;
+	left: 152px;
+}
+
+.numberApplauded {
+	display: inline-block;
+	font-size: 10px;
+	bottom: -2px;
+	position: absolute;
+	left: 220px;
+	color: #08C;
 }
 
 .memberInfo {

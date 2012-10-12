@@ -7,7 +7,7 @@ class User(db.Model):
 	name = db.StringProperty(required = True)
 	pw_hash = db.StringProperty(required = True)
 	email = db.StringProperty(required = True)
-	permissions = db.StringProperty(default = "User", choices=set(['User', "Admin", "God"]))
+	permissions = db.StringProperty(default = "User", choices=set(["User", "Admin", "God"]))
 
 	@classmethod
 	def register(cls, name, password, email):
@@ -28,6 +28,7 @@ class Post(db.Model):
 	author = db.ReferenceProperty(User)
 	content = db.TextProperty(required = True)
 	time = db.DateTimeProperty(auto_now_add = False)
+	applause = db.IntegerProperty(default = 0)
 
 	@classmethod
 	def addPost(cls, author, content):
@@ -68,6 +69,9 @@ class largeImage(db.Model):
 	user = db.ReferenceProperty(User)
 	caption = db.TextProperty()
 
+class applause(db.Model):
+	post = db.ReferenceProperty(Post)
+	user = db.ReferenceProperty(User)
 
 
 

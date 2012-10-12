@@ -4,7 +4,17 @@
 		<div class="profileImage"><img src="/img/{{post.author.key().id()}}"></div>
 		<div class='author {{post.author.permissions}}'>{{post.author.name}}</div>
 		<div class="postcontent">{{post.content}}</div>
-		{% if user %}<button class='addComment btn btn-link' id="{{post.key().id()}}">Add Comment</button>{% endif %}
+		{% if user %}
+			<i class="icon-align-right icon1 {{post.key().id()}}"></i><button class='addComment btn btn-link' id="{{post.key().id()}}">Add Comment</button>
+			<i class="icon-hand-up icon2 {{post.key().id()}}"></i><button class='applaude btn btn-link' id="{{post.key().id()}}">Applaud</button>
+			{% if post.applause == 0 %}
+				<span class="numberApplauded {{post.key().id()}}"></span>
+			{% elif post.applause == 1 %}
+				<span class="numberApplauded {{post.key().id()}}">{{post.applause}} person applauded</span>
+			{% else %}
+				<span class="numberApplauded {{post.key().id()}}">{{post.applause}} people applauded</span>
+			{% endif %}
+		{% endif %}
 	</div>
 
 	
