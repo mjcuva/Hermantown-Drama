@@ -1,0 +1,41 @@
+<style>
+	.navbar img {
+	height: 40px;
+	width: auto;
+	margin-right: 5px;
+}
+
+.user {
+	/*float:  right !important;
+	*/
+	right: 0;
+	position: fixed;
+	margin-right: 100px;
+}
+
+.pull-right {
+	float: right !important;
+}
+
+</style>
+
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<ul class="nav">
+				<li class='/'>
+					<a href='/'>Home</a>
+				</li>
+				<li class='/photos'>
+					<a href="/photos">Pictures</a>
+				</li>
+				{% if user %}
+				<li>
+					<p class="navbar-text user" rel='popover'><img src="/img/{{user.key().id()}}">{{user.name}}</P>
+				</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</div>
