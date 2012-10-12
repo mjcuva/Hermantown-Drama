@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Images</title>
+
+	<link href="static/bootstrap/css/bootstrap.css" rel="stylesheet" type='text/css'>
+	<link href="static/bootstrap/css/bootstrap-responsive.css" >
+	<!-- <link href="/static/normalize.css" rel="stylesheet" type="text/css"> -->
+	<link href="static/bootstrap/css/docs.css" rel='stylesheet'>
+	<link href="static/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+	<!-- <link href="static/style.css" rel="stylesheet"> -->
+
+</head>
+
+<style>
+	.centerLeft {
+		margin-left: auto;
+		margin-right: auto;
+		display: block;
+		float: none;
+	}
+
+	#myCarousel {
+		margin-top: 10px;
+		/*height: 700px;*/
+		background-color: black;
+	}
+
+	.item .image {
+		height: 400px;
+		width: auto;
+		display: inline-block !important;
+	}
+
+	.img-polaroid {
+		width: 300px;
+		cursor: hand;
+		cursor: pointer;
+	}
+
+	.row {
+		margin-bottom: 50px;
+		margin-left: 40px;
+		margin-top: 20px;
+	}
+
+	.row img{
+		margin: 5px;
+	}
+
+	.caption {
+		font-size: 20px;
+	}
+
+	.item {
+		text-align: center;
+	}
+
+
+</style>
+<body>
+
+	{% include 'navbar.html' %}
+
+	<div class="container centerLeft well">
+		<div id="myCarousel" class="carousel slide">
+			<div class="carousel-inner">
+				{% for i in images %}
+					<div class="item {{i.key().id()}}">
+						<img class="image" src='{{i.url}}'>
+						<div class='carousel-caption'>
+							<p class='caption'>{{i.caption}}</p>
+							<p>Posted by: {{i.user.name}}
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+
+			<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+			<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+
+		</div>
+		
+		<button class="btn btn-success centerLeft addPhotos">Add Photos</button>
+	</div>
+
+	<div class="row">
+		{% for i in images %}
+			<img src="/thumbnail/{{i.key().id()}}" class="img-polaroid {{i.key().id()}}">
+		{% endfor %}
+	</div>
+
+	<script src="static/javascript/jquery-1.7.2.js"></script>
+    <script src="static/bootstrap/js/bootstrap.js"></script>
+    <script src="https://raw.github.com/jaz303/jquery-grab-bag/master/javascripts/jquery.autogrow-textarea.js"></script>
+    <script src="static/javascript/images.js"></script>
+    <script src="/static/javascript/navbar.js"></script>
+
+</body>
+</html>

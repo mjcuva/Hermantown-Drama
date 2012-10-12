@@ -6,9 +6,13 @@ import databases
 import hmac
 import json
 import logging
+import urllib
 
 from google.appengine.ext import db
 from google.appengine.api import urlfetch
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.api import images
 
 
 secret = 'secret'
@@ -25,13 +29,11 @@ class Handler(webapp2.RequestHandler):
     def render_str(self, template, **params):
         t = jinja_env.get_template(template)
         return t.render(params)
-
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
 
     def set_cookie(self, name, value):
         val = self.make_secure_val(value)
-        logging.error(val)
         return self.response.headers.add_header("Set-Cookie", "%s=%s" % (name, val))
 
     def make_secure_val(self, val):
@@ -83,9 +85,11 @@ class addComment(Handler):
             content = util.htmlify(self.request.get('content'))
             postid = self.request.get('id')
             post = databases.Post.get_by_id(int(postid))
-            comment = databases.Comment.addComment(post, user, content)
-
-            self.render('comments.html', comment = comment, post = post, user = user)       
+            if post:
+                comment = databases.Comment.addComment(post, user, content)
+                self.render('comments.html', comment = comment, post = post, user = user)       
+            else:
+                self.write('ERROR')
 
 
 class register(Handler):
@@ -97,20 +101,23 @@ class register(Handler):
         password = util.escape(self.request.get("user_pass"))
         email = util.escape(self.request.get("user_email"))
 
-        user = databases.User.register(name, password, email)
+        if not databases.User.all().filter('email =', email):
+            user = databases.User.register(name, password, email)
 
-        user.put()
+            user.put()
 
-        data = db.Blob(urlfetch.Fetch("http://i.imgur.com/efHNR.gif").content)
-        filetype = 'gif'
-        name = 'blank_profile.gif'
+            data = db.Blob(urlfetch.Fetch("http://i.imgur.com/efHNR.gif").content)
+            filetype = 'gif'
+            name = 'blank_profile.gif'
 
-        image = databases.userImage(name = name, data = data, filetype = filetype, user = user)
-        image.put()
+            image = databases.userImage(name = name, data = data, filetype = filetype, user = user)
+            image.put()
 
-        self.set_cookie("user", str(user.key().id()))
+            self.set_cookie("user", str(user.key().id()))
 
-        self.redirect('/')
+            self.redirect('/')
+        else:
+            self.render('signup.html', error = "Email already taken")
 
 
 class login(Handler):
@@ -153,7 +160,7 @@ class login(Handler):
             self.render('login.html', **params)
         else:
             self.set_cookie('user', str(u.key().id()))
-            logging.error(self.request.cookies.get('user'))
+            logging.info(u.name + " logged in")
             self.redirect('/')
 
 
@@ -215,7 +222,7 @@ class profile(Handler):
                 try:
                     data = self.request.POST[u'image'].file.read()
                     name = self.request.POST[u'image'].filename
-                    filetype = 'image/' + self.request.POST[u'image'].type
+                    filetype = self.request.POST[u'image'].type
                     image = databases.userImage(name = name, data = data, filetype = filetype, user = user)
                     for i in databases.userImage.all():
                         if i.user.key().id() == user.key().id():
@@ -282,7 +289,6 @@ class changePass(Handler):
 
 class imageHandler(Handler):
     def get(self, id):
-
         img = None
         user = databases.User.get_by_id(int(id))
         images = databases.userImage.all()
@@ -297,6 +303,63 @@ class imageHandler(Handler):
             self.response.headers['Content-Type'] = 'text'
             self.response.out.write( img.data )
 
+class uploadForm(Handler):
+    def get(self):
+        if(self.request.cookies.get('user') and self.check_secure_val(self.request.cookies.get('user'))):
+            user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
+            upload_url = blobstore.create_upload_url("/upimage")
+            self.render('upload.html', user = user, upload_url = upload_url)
+        else:
+            self.redirect('/')
+
+class uploadImage(blobstore_handlers.BlobstoreUploadHandler):
+    def thumbnailer(self, blob_key):
+        blob_info = blobstore.get(blob_key)
+
+        if blob_info:
+            img = images.Image(blob_key=blob_key)
+            img.resize(width=300, height=300)
+            thumbnail = img.execute_transforms(output_encoding=images.PNG)
+            return thumbnail
+
+    def post(self):
+        user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
+        caption = self.request.get('caption')
+        image = self.get_uploads('file')
+        blob_info = image[0]
+        image = databases.largeImage(url = '/image/%s' % blob_info.key(), user = user, caption = caption)
+        image.put()
+
+        thumbnail = self.thumbnailer(blob_info.key())
+        image.thumbnail = thumbnail
+        image.put()
+        self.redirect('/photos')
+    
+
+class serve(blobstore_handlers.BlobstoreDownloadHandler):
+    def get(self, resource):
+        resource = str(urllib.unquote(resource))
+        blob_info = blobstore.BlobInfo.get(resource)
+        self.send_blob(blob_info)
+
+class displayPhotos(Handler):
+
+    def get(self):
+        if(self.request.cookies.get('user') and self.check_secure_val(self.request.cookies.get('user'))):
+            user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
+        else:
+            user = None
+        images = databases.largeImage.all()
+        self.render('images.html', images = images, user = user)
+
+class displayThumbnail(Handler):
+
+    def get(self, id):
+        image = databases.largeImage.get_by_id(int(id)).thumbnail
+        self.response.headers['Content-Type'] = 'image/png'
+        self.write(image)
+        
+
 
 
 
@@ -310,5 +373,10 @@ app = webapp2.WSGIApplication([('/', MainHandler),
                                 ('/post$', addPost),
                                 ('/addcomment$', addComment),
                                 ('/img/(\d+)', imageHandler),
-                                ('/changepassword', changePass)],
+                                ('/changepassword', changePass),
+                                ("/upload", uploadForm),
+                                ('/upimage', uploadImage),
+                                ('/image/([^/]+)?', serve),
+                                ('/photos/?', displayPhotos),
+                                ('/thumbnail/(\d+)', displayThumbnail)],
                               debug=True)

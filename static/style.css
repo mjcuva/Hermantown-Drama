@@ -51,7 +51,7 @@ background-color: #dbdbdb; /*height:  3000px;
 .user {
 	/*float:  right !important;
 	*/
-right: 0;
+	right: 0;
 	position: fixed;
 	margin-right: 100px;
 }

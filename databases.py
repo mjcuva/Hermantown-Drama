@@ -62,7 +62,11 @@ class userImage(db.Model):
 			if i.user.key().id() == user.key().id():
 				return image
 
-
+class largeImage(db.Model):
+	url = db.StringProperty()
+	thumbnail = db.BlobProperty()
+	user = db.ReferenceProperty(User)
+	caption = db.TextProperty()
 
 
 

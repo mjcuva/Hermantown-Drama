@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Upload Images</title>
+		
+		<link href="static/bootstrap/css/bootstrap.css" rel="stylesheet" type='text/css'>
+		<link href="static/bootstrap/css/bootstrap-responsive.css" >
+		<!-- <link href="/static/normalize.css" rel="stylesheet" type="text/css"> -->
+		<link href="static/bootstrap/css/docs.css" rel='stylesheet'>
+		<link href="static/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+		<!-- <link href="static/style.css" rel="stylesheet">/ -->
+		
+		
+	</head>
+	
+	<style type="text/css">
+
+		.centerLeft {
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
+			float: none;
+		}
+
+		.centerMiddle {
+			margin-top: 100px;
+		}
+
+		.centerText {
+			text-align: center !important;
+		}
+
+		.formItem{
+			font-size: 18px;
+		}
+
+	</style>
+
+	<body>
+	
+	
+	
+	{% include 'navbar.html' %}
+	
+	<div class="well span6 centerLeft centerMiddle">
+		<form class="form-horizontal" id="imageForm" method='post' enctype='multipart/form-data' action='{{upload_url}}'>
+			<fieldset>
+				<legend class="centerText">Share an Image</legend>
+				
+				<div class="control-group">
+					<label class="control-label centerText formItem">Choose an Image: </label>
+					<div class="controls">
+						<input type='file' name="file" id='file'>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label centerText formItem">Caption: </label>
+					<div class="controls">
+						<input type='text' name="caption" id='caption'>
+					</div>
+				</div>
+				
+				<button class="btn btn-primary centerLeft" id="save">Upload</button>
+				
+			</fieldset>
+		</form>
+	</div>
+	
+	<script src="static/javascript/jquery-1.7.2.js"></script>
+    <script src="static/bootstrap/js/bootstrap.js"></script>
+    <script src="https://raw.github.com/jaz303/jquery-grab-bag/master/javascripts/jquery.autogrow-textarea.js"></script>
+    <script src="static/javascript/home.js"></script>
+    <script src='https://raw.github.com/jquery/jquery-color/master/jquery.color.js'></script>
+    
+
+	</body>
+</html>

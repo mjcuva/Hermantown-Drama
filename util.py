@@ -79,6 +79,7 @@ def htmlify(content):
 		content = content[:start] + '<em>' + content[start + 1:end - 1] + '</em>' + content[end:]
 		start = content.find('*', end)
 
+	# GIF ME
 	if content.lower() == '#gif me':
 		image = random.randint(1, 28)
 		content = "<img src='/gifs/" + str(image) + ".gif'>"
