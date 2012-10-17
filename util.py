@@ -48,6 +48,8 @@ def htmlify(content):
 	# Add Break
 	content = content.replace('\n', '<br>')
 
+	# If person had link just with www, not http://
+	# adds http://
 	www = content.find('www')
 	while www > -1:
 		if not (content.find("http://") + 7 == (www)):
