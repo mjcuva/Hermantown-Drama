@@ -48,6 +48,14 @@ def htmlify(content):
 	# Add Break
 	content = content.replace('\n', '<br>')
 
+	www = content.find('www')
+	while www > -1:
+		if not (content.find("http://") + 7 == (www)):
+			content = content[:www] + 'http://' + content[www:]
+		
+		www = content.find('www', www + 10)
+
+
 	# Add links
 	link = content.find('http://')
 	while link > -1:
