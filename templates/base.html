@@ -39,7 +39,15 @@
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div class="span2 offset2">
-					<div class="sidebar-nav-fixed well">
+					{% if user %}
+						<div class='sidebar-nav-fixed well'>
+							<div class='nav nav-list'>
+								<button class='btn btn-primary btn-large uploadPhotos'>Upload Photos</button>
+							</div>
+						</div>
+					{% endif %}
+
+					<div class="sidebar-nav-fixed well {% if user %}lowerBar{% endif %}">
 						<ul class="nav nav-list">
 							<li class="nav-header">Important Dates:</li>
 							<li>October 8th: First day of rehearsal!</li>
@@ -52,7 +60,7 @@
 							<a href='/static/calendar.pdf'>Download (PDF)</a>
 					</div>
 
-					<div class="sidebar-nav-fixed centerText well" id="lowerBar">
+					<div class="sidebar-nav-fixed centerText well lowerBar">
 						<ul class="nav nav-list">
 							<li class="nav-header">Notice a problem with the site?</li>
 							<li>Please email Marc at <a href="mailto:mjcuva@gmail.com">mjcuva@gmail.com</a> with a detailed description of the problem.</li>

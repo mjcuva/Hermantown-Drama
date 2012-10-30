@@ -68,6 +68,7 @@ class largeImage(db.Model):
 	thumbnail = db.BlobProperty()
 	user = db.ReferenceProperty(User)
 	caption = db.TextProperty()
+	posted = db.DateTimeProperty(auto_now_add = True)
 
 class applause(db.Model):
 	post = db.ReferenceProperty(Post)

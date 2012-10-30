@@ -374,7 +374,7 @@ class displayPhotos(Handler):
             user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
         else:
             user = None
-        images = databases.largeImage.all()
+        images = databases.largeImage.all().order('-posted')
         self.render('images.html', images = images, user = user)
 
 class displayThumbnail(Handler):

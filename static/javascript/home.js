@@ -12,6 +12,22 @@ $(document).ready(function(){
 	});
 
 
+	$('.photos').popover({
+		content: "<h5>View pictures from rehearsal!</h5>",
+		placement: 'bottom',
+		delay: {
+			show: 0,
+			hide: 2000
+		}
+	});
+
+	 $(function() { 
+        $('.photos').popover('show');
+        setTimeout(function(){$(".photos").popover('hide')}, 8000);
+
+      });
+
+
 	$('.content hr').first().hide();
 
 	$('.button').click(function(e) {
@@ -144,7 +160,9 @@ $(document).ready(function(){
 	});
 
 
-
+	$('.uploadPhotos').click(function(){
+		window.location.href = '/upload'
+	})
 
 
 
