@@ -45,8 +45,6 @@ def valid_pw(name, password, h):
 	return h == make_pw_hash(name, password, salt)
 
 def htmlify(content):
-	# Add Break
-	content = content.replace('\n', '<br>')
 
 	# If person had link just with www, not http://
 	# adds http://
@@ -63,6 +61,7 @@ def htmlify(content):
 	while link > -1:
 		endlink = content.find(' ', link) + 1
 		if endlink == 0: endlink = len(content)
+		if content[endlink - 1] == '\n': endlink -= 2
 		content = content[:link] + '<a href="' + content[link:endlink] + '">' + content[link + 7:endlink] + '</a>' + content[endlink:]
 		link = content.find('http://', endlink)
 
@@ -93,6 +92,9 @@ def htmlify(content):
 	if content.lower() == '#gif me':
 		image = random.randint(1, 28)
 		content = "<img src='/gifs/" + str(image) + ".gif'>"
+
+	# Add Break
+	content = content.replace('\n', '<br>')
 
 	return content
 	

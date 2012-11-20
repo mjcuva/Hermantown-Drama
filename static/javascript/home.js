@@ -43,7 +43,8 @@ $(document).ready(function(){
 			$('.control-group').addClass("error");
 			$('.postError').show();
 		}else{
-			var data = 'content=' +  $('#content').val();
+			var content = escape($('#content').val())
+			var data = 'content=' +  content;
 
 
 			$.ajax({
@@ -162,6 +163,14 @@ $(document).ready(function(){
 
 	$('.uploadPhotos').click(function(){
 		window.location.href = '/upload'
+	})
+
+	$('.loginButton').click(function(){
+		window.location.href ='/login';
+	})
+
+	$('.registerButton').click(function(){
+		window.location.href='/register'
 	})
 
 
