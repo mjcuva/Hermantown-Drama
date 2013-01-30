@@ -12,4 +12,13 @@ $(document).ready(function(){
 	$('.addPhotos').click(function(){
 		window.location.href = '/upload'
 	})
+
+	$('.nextpage').click(function(){
+		url = document.URL;
+		start = url.search('/photos/');
+		url = url.substr(start + 8);
+		url = parseInt(url) + 1
+
+		window.location.href = '/photos/' + url;
+	})
 })
