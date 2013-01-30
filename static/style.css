@@ -290,6 +290,10 @@ min-height: 40px;
 	list-style: none;
 }
 
+.center{
+	text-align: center;
+}
+
 @media screen and (max-width: 1200px) {
 	/*	.sidebar-nav-fixed {
 	
@@ -314,6 +318,8 @@ min-height: 40px;
 	width: 80% !important;
 	margin-left: 30px !important;
 }
+
+
 
 
 
