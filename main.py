@@ -352,14 +352,15 @@ class uploadImage(blobstore_handlers.BlobstoreUploadHandler):
         user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
         caption = self.request.get('caption')
         image = self.get_uploads('file')
-        blob_info = image[0]
-        image = databases.largeImage(url = '/image/%s' % blob_info.key(), user = user, caption = caption)
-        image.put()
+        for i in image:
+            blob_info = i
+            image = databases.largeImage(url = '/image/%s' % blob_info.key(), user = user, caption = caption)
+            image.put()
 
-        thumbnail = self.thumbnailer(blob_info.key())
-        image.thumbnail = thumbnail
-        image.put()
-        self.redirect('/photos')
+            thumbnail = self.thumbnailer(blob_info.key())
+            image.thumbnail = thumbnail
+            image.put()
+        self.redirect('/photos/1')
     
 
 class serve(blobstore_handlers.BlobstoreDownloadHandler):
@@ -370,13 +371,19 @@ class serve(blobstore_handlers.BlobstoreDownloadHandler):
 
 class displayPhotos(Handler):
 
-    def get(self):
+    def get(self, page):
         if(self.request.cookies.get('user') and self.check_secure_val(self.request.cookies.get('user'))):
             user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
         else:
             user = None
-        images = databases.largeImage.all().order('-posted')
-        self.render('images.html', images = images, user = user)
+        imageCount = databases.largeImage.all().order('-posted').count()
+
+        if(int(page) * 20 > imageCount):
+            button = False
+        else:
+            button = True
+        images = databases.largeImage.all().order('-posted')[:(20 * int(page))]
+        self.render('images.html', images = images, user = user, button= button)
 
 class displayThumbnail(Handler):
 
@@ -384,6 +391,16 @@ class displayThumbnail(Handler):
         image = databases.largeImage.get_by_id(int(id)).thumbnail
         self.response.headers['Content-Type'] = 'image/png'
         self.write(image)
+
+
+class editInfo(Handler):
+
+    def get(self):
+
+        if(self.request.cookies.get('user') and self.check_secure_val(self.request.cookies.get('user'))):
+            user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
+
+        self.render('editinfo.html', user = user)
         
 
 
@@ -403,7 +420,8 @@ app = webapp2.WSGIApplication([('/', MainHandler),
                                 ("/upload", uploadForm),
                                 ('/upimage', uploadImage),
                                 ('/image/([^/]+)?', serve),
-                                ('/photos/?', displayPhotos),
+                                ('/photos/(\d+)/?', displayPhotos),
                                 ('/thumbnail/(\d+)', displayThumbnail),
-                                ('/applaud', applaud)],
+                                ('/applaud', applaud),
+                                ('/editinfo', editInfo)],
                               debug=True)
