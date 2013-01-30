@@ -28,8 +28,13 @@
 					<a href='/'>Home</a>
 				</li>
 				<li class='photos' rel='popover'>
-					<a href="/photos">Pictures</a>
+					<a href="/photos/1">Pictures</a>
 				</li>
+				{% if user.permissions == 'God' or user.permissions == 'Admin'%}
+				<li class='editinfo'>
+					<a href='/editinfo'>Edit Info</a>
+				</li>
+				{% endif %}
 				{% if user %}
 				<li>
 					<p class="navbar-text user" rel='popover'><img src="/img/{{user.key().id()}}">{{user.name}}</P>
