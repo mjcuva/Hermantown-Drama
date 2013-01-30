@@ -1,0 +1,23 @@
+.edit {
+    margin-top: 30px;
+    width: 45%;
+    height: 300px;
+    float: left;
+    margin-bottom: 0px;
+}
+
+.preview {
+    margin-top: 30px;
+    display:block;
+    float:left;
+    width: 42%;
+    height: 289px;
+    padding-bottom: 0px;
+    margin-left: 5%;
+    overflow: auto;
+}
+
+.editTitle {
+    margin-top: 20px;
+    margin-bottom: -20px;
+}
