@@ -47,23 +47,8 @@
 						</div>
 					{% endif %}
 
-					<div class="sidebar-nav-fixed well {% if user %}lowerBar{% endif %}">
-						<ul class="nav nav-list">
-							<li class="nav-header">Important Dates:</li>
-							<li>October 8th: First day of rehearsal!</li>
-							<hr>
-							<li>November 28, 29 at 7pm and December 1 at 2pm and 7pm: Performances</li>
-						</ul>
-						<hr>
-						<ul class="nav nav-list">
-							<li class="nav-header">Schedule</li>
-							<a href='/static/calendar.pdf'>Download (PDF)</a>
-						</ul>
-						<hr>
-						<ul class='nav nav-list'>
-							<li class='nav-header'>Ticket Order Form</li>
-							<a href='http://www.hermantown.k12.mn.us/staff_directory/Ken_Ahlberg/documents/FootlooseTicketOrderForm.pdf'>Download (PDF)</a>
-						</ul>
+					<div class="sidebar-nav-fixed well {% if user %}lowerBar{% endif %} information">
+						{{sidebar}}
 					</div>
 
 					<div class="sidebar-nav-fixed centerText well lowerBar">
@@ -89,16 +74,8 @@
 							{% include 'post.html' %}
 						{% endfor %}
 						{% else %}
-							<div id='information'>
-								<ul>
-									<li>The top two teams from the northern and southern 7AA sub-section compete for a chance to perform at the State One Act Festival. Saturday, February 2, 2013 at Hermantown High School.</li>
-									<li>The schedule is as follows:</li>
-									<li>"Bad Auditions by Bad Actors" @ 12:00 p.m.</li>
-									<li>"The Actor's Nightmare" @ 1:00 p.m.</li>
-									<li>"betweenity" @ 2:00 p.m.</li>
-									<li>"Booby Trap" @ 3:00 p.m.</li>
-									<li>Awards @ 4:00 p.m.</li>
-								</ul>
+							<div class='information' id='front'>
+								{{frontPage}}
 							</div>
 						{% endif %}
 					</div>
