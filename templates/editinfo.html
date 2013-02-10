@@ -15,18 +15,24 @@
 
         {% include 'navbar.html' %}
 
-        <h3 class='center editTitle'>Front Page</h4>
-        <div class='container'>
-            <textarea id='editHome' class='edit'></textarea>
-            <div id='homePreview' class='well preview'></div>
-            <br style='clear:both;'>
+        <div id='save'><button id='saveInfo' class='btn btn-large btn-success'>Save Changes</button></div>
+
+        <div class=''>
+            <h3 class='center editTitle'>Front Page</h4>
+            <div class='container'>
+                <textarea id='editHome' class='edit information'>{{frontPage}}</textarea>
+                <div id='homePreview' class='well preview information'></div>
+                <br style='clear:both;'>
+            </div>
+            <h3 class='center editTitle'>Sidebar</h3>
+            <div class='container'>
+                <textarea id='editSidebar' class='edit information'>{{sidebar}}</textarea>
+                <div id='sidebarPreview' class='well preview information'></div>
+                <br style='clear:both;'>
+            </div>
         </div>
-        <h3 class='center editTitle'>Sidebar</h3>
-        <div class='container'>
-            <textarea id='editSidebar' class='edit'></textarea>
-            <div id='sidebarPreview' class='well preview'></div>
-            <br style='clear:both;'>
-        </div>
+
+
 
         <script src="static/javascript/jquery-1.7.2.js"></script>
         <script src="static/bootstrap/js/bootstrap.js"></script>
