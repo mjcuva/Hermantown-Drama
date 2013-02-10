@@ -55,15 +55,18 @@ class MainHandler(Handler):
         comments = databases.Comment.all().order('time')
 
         images = databases.userImage.all()
-        self.render('base.html', user = user, posts = posts, comments = comments, images = images)
 
-    def post(self):
-        if(self.request.cookies.get('user') and self.check_secure_val(self.request.cookies.get('user'))):
-            user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
-            databases.Post.addPost(user, self.request.get("content"))
-            output = {'test': test}
-            output = json.dumps(output)
-            self.write(output)
+        frontPage = databases.frontPage.getText()
+        sidebar = databases.sidebar.getText()
+
+
+        self.render('base.html', user = user, 
+                                 posts = posts, 
+                                 comments = comments, 
+                                 images = images, 
+                                 frontPage = frontPage, 
+                                 sidebar = sidebar)
+
 
 
 class addPost(Handler):
@@ -400,7 +403,47 @@ class editInfo(Handler):
         if(self.request.cookies.get('user') and self.check_secure_val(self.request.cookies.get('user'))):
             user = databases.User.get_by_id(int(self.request.cookies.get('user').split('|')[0]))
 
-        self.render('editinfo.html', user = user)
+            frontPage = databases.frontPage.getText()
+            sidebar = databases.sidebar.getText()
+
+
+
+            self.render('editinfo.html', user = user, frontPage = frontPage, sidebar = sidebar)
+        else:
+            self.redirect("/")
+
+
+        
+
+    def post(self):
+
+        if(self.request.cookies.get('user') and self.check_secure_val(self.request.cookies.get('user'))):
+
+            frontPage = self.request.POST['frontPage']
+            sidebar = self.request.POST['sidebar']
+            frontPage = util.htmlify(frontPage)
+            sidebar = util.htmlify(sidebar)
+            # if not frontPage:
+            #     frontPage = ""
+
+            # if not sidebar:
+            #     sidebar = ""
+
+            front = databases.frontPage.all()
+            if(front.count() > 0):
+                for i in front:
+                    i.delete()
+
+            newFront = databases.frontPage(text = frontPage)
+            newFront.put()
+
+            side = databases.sidebar.all()
+            if(side.count() > 0):
+                for i in side:
+                    i.delete()
+
+            newSide = databases.sidebar(text = sidebar)
+            newSide.put()
         
 
 
