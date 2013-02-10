@@ -1,9 +1,10 @@
 .edit {
     margin-top: 30px;
     width: 45%;
-    height: 300px;
+    height: 281px;
     float: left;
     margin-bottom: 0px;
+    padding-top: 19px;
 }
 
 .preview {
@@ -20,4 +21,27 @@
 .editTitle {
     margin-top: 20px;
     margin-bottom: -20px;
+}
+
+#save{
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    float:right;
+    right: 60px;
+    position: absolute;
+}
+
+#left{
+    float:left;
+}
+
+@media screen and (max-width: 1300px){
+    #save{
+        position:relative;
+        right: 0px;
+        float: none;
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
 }
