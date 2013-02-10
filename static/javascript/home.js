@@ -11,18 +11,6 @@ $(document).ready(function(){
 		}
 	});
 
-
-	if(document.title === "Hermantown Drama"){
-		$('.photos').popover({
-			content: "<h5>View pictures from rehearsal!</h5>",
-			placement: 'bottom',
-			delay: {
-				show: 0,
-				hide: 2000
-			}
-		});
-	}
-
 	 $(function() { 
         $('.photos').popover('show');
         setTimeout(function(){$(".photos").popover('hide')}, 8000);
